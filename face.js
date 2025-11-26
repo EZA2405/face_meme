@@ -2,6 +2,8 @@ const webcamElement = document.getElementById("webcam");
 const memeImage = document.getElementById("memeImage");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const aud = document.getElementById('kung_tayo');
+let audio = false;
 let predictionHistory = [];
 const HISTORY_SIZE = 5;
 let currentStableClass = "";
@@ -10,7 +12,8 @@ const imageUrls = [
     "images/finger.jpg", 
     "images/thumb.jpg",
     "images/shocked.jpg",
-    "images/middle.jpg"
+    "images/middle.jpg",
+    "images/alden.jpg"
 ];
 
 
@@ -89,23 +92,60 @@ async function predictLoop(face_model, canvas, ctx) {
     switch (currentStableClass) {
         case "mouth":
             memeImage.src = "images/mouth.jpg"
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
             break;
         case "finger":
             memeImage.src = "images/finger.jpg"
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
             break;
         case "thumb":
             memeImage.src = "images/thumb.jpg"
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
             break;
         case "shocked":
             memeImage.src = "images/shocked.jpg"
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
             break;
         case "middle":
             memeImage.src = "images/middle.jpg"
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
+            break;
+        case "alden":
+            memeImage.src = "images/alden.jpg"
+            if (!audio) {
+                audio = true;                
+                aud.play();
+            }
             break;
         default:
             memeImage.src = "";
+            if (audio) {
+                aud.pause();
+                aud.currentTime = 0;
+                audio = false;
+            }
     }
-        requestAnimationFrame(() =>
-            predictLoop(face_model, canvas, ctx)
-    );
+    setTimeout(() => {
+        requestAnimationFrame(() => predictLoop(face_model, canvas, ctx));
+    }, 100);  
 } 
