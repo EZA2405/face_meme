@@ -3,7 +3,7 @@ const memeImage = document.getElementById("memeImage");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let predictionHistory = [];
-const HISTORY_SIZE = 5;
+const HISTORY_SIZE = 7;
 let currentStableClass = "";
 const imageUrls = [
     "images/mouth.jpg",
@@ -58,6 +58,10 @@ async function predictLoop(face_model, canvas, ctx) {
         }
     });
 
+    if (highestProb < lowProb) {
+        predicted_class = "Blank";
+    }
+
     predictionHistory.push(predicted_class);
     if (predictionHistory.length > HISTORY_SIZE) {
         predictionHistory.shift();
@@ -72,7 +76,7 @@ async function predictLoop(face_model, canvas, ctx) {
         counts[a] > counts[b] ? a : b
     );
     
-    if (counts[mostCommon] >= 3) {
+    if (counts[mostCommon] >= 5) {
         currentStableClass = mostCommon;
     }
 
