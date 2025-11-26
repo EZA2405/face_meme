@@ -3,7 +3,7 @@ const memeImage = document.getElementById("memeImage");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let predictionHistory = [];
-const HISTORY_SIZE = 7;
+const HISTORY_SIZE = 5;
 let currentStableClass = "";
 const imageUrls = [
     "images/mouth.jpg",
@@ -76,7 +76,7 @@ async function predictLoop(face_model, canvas, ctx) {
         counts[a] > counts[b] ? a : b
     );
     
-    if (counts[mostCommon] >= 5) {
+    if (counts[mostCommon] >= 3) {
         currentStableClass = mostCommon;
     }
 
