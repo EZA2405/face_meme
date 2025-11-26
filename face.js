@@ -13,7 +13,7 @@ const imageUrls = [
     "images/thumb.jpg",
     "images/shocked.jpg",
     "images/middle.jpg",
-    "images/alden.jpg"
+    "images/alden.png"
 ];
 
 
@@ -131,7 +131,7 @@ async function predictLoop(face_model, canvas, ctx) {
             }
             break;
         case "alden":
-            memeImage.src = "images/alden.jpg"
+            memeImage.src = "images/alden.png"
             if (!audio) {
                 audio = true;                
                 aud.play();
