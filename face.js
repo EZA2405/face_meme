@@ -149,5 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             requestAnimationFrame(() => predictLoop(face_model, canvas, ctx));
         }, 100);  
-    } 
-}
+    };
+});
