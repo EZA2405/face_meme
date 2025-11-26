@@ -2,7 +2,7 @@ const webcamElement = document.getElementById("webcam");
 const memeImage = document.getElementById("memeImage");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const aud = document.getElementById('kung_tayo');
+let aud;
 let audio = false;
 let predictionHistory = [];
 const HISTORY_SIZE = 5;
@@ -38,6 +38,7 @@ async function setupWebcam() {
 };
 async function init() {
     await setupWebcam();
+    aud = document.getElementById('kung_tayo');
     const face_model = await tmImage.load("tm-model-third/model.json","tm-model-third/metadata.json");
 
     predictLoop(face_model, canvas, ctx);
