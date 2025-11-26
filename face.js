@@ -1,11 +1,12 @@
 const webcamElement = document.getElementById("webcam");
 const memeImage = document.getElementById("memeImage");
-
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
 async function setupWebcam() {
     const stream = await navigator.mediaDevices.getUserMedia({
-        video: true;
-        audio: false;
+        video: true,
+        audio: false
     });
 
     webcamElement.srcObject = stream;
@@ -19,10 +20,8 @@ async function setupWebcam() {
 async function init() {
     await setupWebcam();
     const face_model = await tmImage.load("tm-model/model.json","tm-model/metadata.json");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
 
-    predictLoop();
+    predictLoop(face_model, canvas, ctx);
 }
 
 init();
