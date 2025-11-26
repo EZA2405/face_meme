@@ -19,7 +19,7 @@ async function setupWebcam() {
 };
 async function init() {
     await setupWebcam();
-    const face_model = await tmImage.load("tm-model/model.json","tm-model/metadata.json");
+    const face_model = await tmImage.load("tm-model-revised/model.json","tm-model-revised/metadata.json");
 
     predictLoop(face_model, canvas, ctx);
 }
@@ -32,6 +32,7 @@ async function predictLoop(face_model, canvas, ctx) {
     const prediction = await face_model.predict(canvas);
 
     let highestProb = 0;
+    let lowProb = 0.85;
     let predicted_class = "";
 
     prediction.forEach(p => {
@@ -41,6 +42,12 @@ async function predictLoop(face_model, canvas, ctx) {
         }
     });
 
+    memeImage.classList.add('hidden')
+
+    if (highestProb >= lowProb && predicted_class !== "Blank") {
+        memeImage.classList.remove('hidden');
+    }
+
     switch (predicted_class) {
         case "mouth":
             memeImage.src = "images/mouth.jpg"
@@ -48,24 +55,19 @@ async function predictLoop(face_model, canvas, ctx) {
         case "finger":
             memeImage.src = "images/finger.jpg"
             break;
-        case "neutral":
-            memeImage.src = "images/neutral.jpg"
-            break;
-        case "scared":
-            memeImage.src = "images/scared.jpg"
-            break;
         case "thumb":
             memeImage.src = "images/thumb.jpg"
-            break;
-        case "lipbite":
-            memeImage.src = "images/lipbite.jpg"
             break;
         case "shocked":
             memeImage.src = "images/shocked.jpg"
             break;
+        case "middle":
+            memeImage.src = "images/middle.jpg"
+            break;
         default:
             memeImage.src = "";
     }
-
-    requestAnimationFrame(() =>predictLoop(face_model, canvas, ctx));
-}
+        requestAnimationFrame(() =>
+            predictLoop(face_model, canvas, ctx)
+    );
+} 
