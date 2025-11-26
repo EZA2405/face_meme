@@ -2,6 +2,22 @@ const webcamElement = document.getElementById("webcam");
 const memeImage = document.getElementById("memeImage");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+let predictionHistory = [];
+const HISTORY_SIZE = 5;
+let currentStableClass = "";
+const imageUrls = [
+    "images/mouth.jpg",
+    "images/finger.jpg", 
+    "images/thumb.jpg",
+    "images/shocked.jpg",
+    "images/middle.jpg"
+];
+
+
+
+imageUrls.forEach(url => {
+    new Image().src = url;
+});
 
 async function setupWebcam() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -42,13 +58,31 @@ async function predictLoop(face_model, canvas, ctx) {
         }
     });
 
-    memeImage.classList.add('hidden')
+    predictionHistory.push(predicted_class);
+    if (predictionHistory.length > HISTORY_SIZE) {
+        predictionHistory.shift();
+    };
 
-    if (highestProb >= lowProb && predicted_class !== "Blank") {
-        memeImage.classList.remove('hidden');
+    const counts = {};
+    predictionHistory.forEach(p => {
+        counts[p] = (counts[p] || 0) + 1;
+    });
+
+    const mostCommon = Object.keys(counts).reduce((a, b) => 
+        counts[a] > counts[b] ? a : b
+    );
+    
+    if (counts[mostCommon] >= 3) {
+        currentStableClass = mostCommon;
     }
 
-    switch (predicted_class) {
+    memeImage.classList.add('opacity-0','pointer-events-none');
+
+    if (currentStableClass !== "Blank" && currentStableClass !== "") {
+        memeImage.classList.remove('opacity-0','pointer-events-none');
+    }
+
+    switch (currentStableClass) {
         case "mouth":
             memeImage.src = "images/mouth.jpg"
             break;
