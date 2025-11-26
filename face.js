@@ -16,15 +16,18 @@ async function setupWebcam() {
         };
     });
 };
+async function init() {
+    await setupWebcam();
+    const face_model = await tmImage.load("tm-model/model.json","tm-model/metadata.json");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
 
-await setupWebcam();
-const face_model = await tmImage.load("tm-model/model.json","tm-model/metadata.json");
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+    predictLoop();
+}
 
-predictLoop();
+init();
 
-async function predictLoop() {
+async function predictLoop(face_model, canvas, ctx) {
     ctx.drawImage(webcamElement, 0, 0, canvas.width, canvas.height);
 
     const prediction = await face_model.predict(canvas);
@@ -65,5 +68,5 @@ async function predictLoop() {
             memeImage.src = "";
     }
 
-    requestAnimationFrame(predictLoop);
+    requestAnimationFrame(() =>predictLoop(face_model, canvas, ctx));
 }
