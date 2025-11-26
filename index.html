@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>face_meme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+         theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Roboto', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+</head>
+<body>
+    <header>
+        <h1 class="text-[48px] text-center font-[700]">Face Meme Camera</h1>
+    </header>
+    <section class="flex items-center justify-center gap-20">
+        <div class="camera">
+            <video id="webcam" autoplay playsinline class="w-[500px] h-[400px] bg-black rounded-lg"></video>
+            <canvas id="canvas" width="500" height="400" hidden></canvas>
+        </div>
+        <div class="meme">
+            <img id="memeImage" class="w-[400px] h-[400px] bg-black rounded-lg">
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="face.js"></script>
+</body>
+</html>
