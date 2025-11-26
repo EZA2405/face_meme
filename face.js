@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     async function init() {
         await setupWebcam();
-        const face_model = await tmImage.load("tm-model-third/model.json");
+        const face_model = await tmImage.load("tm-model-third/model.json","tm-model-third/metadata.json");
 
         predictLoop(face_model, canvas, ctx);
     }
